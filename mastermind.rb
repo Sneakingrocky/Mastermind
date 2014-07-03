@@ -1,32 +1,28 @@
 
-#human gives computer answer>computer calculates the score between its guess and the answer
 
 #Separates matches and near matches for computer
-
-
-def score(color1, color2)
+def score(secret_code, ai_guess)
   matches = 0
   near_matches = 0
-  color1 = color1.dup #copying arrays to save from .delete(" ") method
-  color2 = color2.dup
+  secret_code = secret_code.dup #copying arrays to save from .delete(" ") method
+  ai_guess = ai_guess.dup
 
   for i in 0..3
-    if color1[i] == color2[i]
-      matches = matches + 1
-      color1[i] = " "
-      color2[i] = " "
-
+    if secret_code[i] == ai_guess[i]
+      matches += 1
+      secret_code[i] = " "
+      ai_guess[i] = " "
     end
   end
 
-  color1.delete(" ")
-  color2.delete(" ")
+  secret_code.delete(" ")
+  ai_guess.delete(" ")
 
-  color1.each do |peg1|
-    color2.each_with_index do |peg2, i|
+  secret_code.each do |peg1|
+    ai_guess.each_with_index do |peg2, i|
       if peg1 == peg2
-        near_matches = near_matches + 1
-        color2.delete_at(i)
+        near_matches += 1
+        ai_guess.delete_at(i)
 
         break
 
@@ -36,10 +32,8 @@ def score(color1, color2)
   return [matches, near_matches]
 end
 
+
 #Sets number of rounds the computer has to guess the correct # to 10
-#Computer starts at "1122" for an optimal guess
-
-
 puts "Can I have your secret color code?"
 secret_color_code = gets.chomp.chars # chomp deletes new line and chars returns as an array
 
@@ -71,5 +65,5 @@ puts "My guess is rroo!"
   end
 
   guess = possibilities[0] #this is guessing the first possibility
-  puts "My guess is #{possibilities[0]}"
+  puts "My guess is #{guess}"
 end
