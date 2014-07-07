@@ -54,7 +54,7 @@ class Mastermind
     10.times do |round|
       ai_guess = get_ai_guess
       puts "This is round #{round}"
-      puts "My guess is #{ai_guess}"
+      puts "My guess is #{ai_guess.join}"
 
       matches, near_matches = score(secret_color_code, ai_guess)
 
