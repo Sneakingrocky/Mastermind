@@ -44,16 +44,19 @@ class Mastermind
     gets.chomp.chars
   end
 
+  def get_ai_guess
+    guess = @possibilities[0] #this is guessing the first possibility
+  end
+
   def play_game
     secret_color_code = prompt_for_code
 
-    #Computers guess
-    guess = ["r", "r", "o", "o"]
-    puts "My guess is rroo!"
-
     10.times do |round|
+      ai_guess = get_ai_guess
       puts "This is round #{round}"
-      matches, near_matches = score(secret_color_code, guess)
+      puts "My guess is #{ai_guess}"
+
+      matches, near_matches = score(secret_color_code, ai_guess)
 
       if matches == 4
         puts "I did it! I am so smart."
@@ -64,12 +67,9 @@ class Mastermind
       end
 
       @possibilities.delete_if do |possibility|
-        new_matches, new_near_matches = score(possibility, guess)
+        new_matches, new_near_matches = score(possibility, ai_guess)
         [matches, near_matches] != [new_matches, new_near_matches]
       end
-
-      guess = @possibilities[0] #this is guessing the first possibility
-      puts "My guess is #{guess}"
     end
   end
 end
