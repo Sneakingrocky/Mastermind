@@ -1,4 +1,11 @@
 class Mastermind
+
+  Colors = ["r", "o", "y", "g", "b", "p"]
+
+  def initialize
+    @possibilities = Colors.repeated_permutation(4).to_a
+  end
+
   #Separates matches and near matches for computer
   def score(secret_code, ai_guess)
     matches = 0
@@ -31,7 +38,6 @@ class Mastermind
     return [matches, near_matches]
   end
 
-
   #Sets number of rounds the computer has to guess the correct # to 10
   def prompt_for_code
     puts "Can I have your secret code?"
@@ -40,10 +46,6 @@ class Mastermind
 
   def play_game
     secret_color_code = prompt_for_code
-
-    #permutation of possible guesses
-    colors = ["r", "o", "y", "g", "b", "p"]
-    possibilities = colors.repeated_permutation(4).to_a
 
     #Computers guess
     guess = ["r", "r", "o", "o"]
@@ -61,12 +63,12 @@ class Mastermind
         break #to stop loop
       end
 
-      possibilities.delete_if do |possibility|
+      @possibilities.delete_if do |possibility|
         new_matches, new_near_matches = score(possibility, guess)
         [matches, near_matches] != [new_matches, new_near_matches]
       end
 
-      guess = possibilities[0] #this is guessing the first possibility
+      guess = @possibilities[0] #this is guessing the first possibility
       puts "My guess is #{guess}"
     end
   end
