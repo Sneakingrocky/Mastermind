@@ -1,9 +1,9 @@
 class Mastermind
 
-  Colors = ["r", "o", "y", "g", "b", "p"]
+  COLORS = ["r", "o", "y", "g", "b", "p"]
 
   def initialize
-    @possibilities = Colors.repeated_permutation(4).to_a
+    @possibilities = COLORS.repeated_permutation(4).to_a
   end
 
   #Separates matches and near matches for computer
