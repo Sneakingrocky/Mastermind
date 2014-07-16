@@ -41,7 +41,7 @@ class Mastermind
   #Sets number of rounds the computer has to guess the correct # to 10
   def prompt_for_code
     puts "Can I have your secret code?"
-    gets.chomp.chars
+    @secret_color_code = gets.chomp.chars
   end
 
   def get_ai_guess
@@ -49,29 +49,34 @@ class Mastermind
   end
 
   def play_game
-    secret_color_code = prompt_for_code
+    prompt_for_code 
 
     10.times do |round|
-      ai_guess = get_ai_guess
       puts "This is round #{round}"
-      puts "My guess is #{ai_guess.join}"
+      play_round
+    end
 
-      matches, near_matches = score(secret_color_code, ai_guess)
+    puts "I lose. At least I still have my good looks."
+  end
 
-      if matches == 4
-        puts "I did it! I am so smart."
-        break #to stop loop
-      elsif round == 9
-        puts "I lose. At least I still have my good looks."
-        break #to stop loop
-      end
+  def play_round
+    ai_guess = get_ai_guess    
+   
+    puts "My guess is #{ai_guess.join}"
 
-      @possibilities.delete_if do |possibility|
-        new_matches, new_near_matches = score(possibility, ai_guess)
-        [matches, near_matches] != [new_matches, new_near_matches]
-      end
+    matches, near_matches = score(@secret_color_code, ai_guess)
+
+    if matches == 4
+      puts "I did it! I am so smart."
+      exit
+    end
+
+    @possibilities.delete_if do |possibility|
+      new_matches, new_near_matches = score(possibility, ai_guess)
+      [matches, near_matches] != [new_matches, new_near_matches]
     end
   end
+
 end
 
 Mastermind.new.play_game
