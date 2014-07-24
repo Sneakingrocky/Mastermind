@@ -3,39 +3,48 @@ class Mastermind
   COLORS = ["r", "o", "y", "g", "b", "p"]
 
   def initialize
-    @possibilities = COLORS.repeated_permutation(4).to_a
+    @possibilities = create_possibilities
+    @matches = 0
+    @near_matches = 0
   end
+
+  def create_possibilities
+    COLORS.repeated_permutation(4).to_a
+  end  
 
   #Separates matches and near matches for computer
   def score(secret_code, ai_guess)
-    matches = 0
-    near_matches = 0
-    secret_code = secret_code.dup #copying arrays to save from .delete(" ") method
-    ai_guess = ai_guess.dup
+    reset_matches_and_near_matches
+    secret_code, ai_guess = secret_code.dup, ai_guess.dup #copying arrays to save from .delete(" ") method
 
-    for i in 0..3
-      if secret_code[i] == ai_guess[i]
-        matches += 1
-        secret_code[i] = " "
-        ai_guess[i] = " "
+    secret_code.each_with_index do |color, index|
+      if color == ai_guess[index]
+        @matches += 1
+        secret_code[index], ai_guess[index] = " ", " "
       end
     end
-
+   
     secret_code.delete(" ")
     ai_guess.delete(" ")
 
+
     secret_code.each do |peg1|
-      ai_guess.each_with_index do |peg2, i|
+      ai_guess.each_with_index do |peg2, index|
         if peg1 == peg2
-          near_matches += 1
-          ai_guess.delete_at(i)
+          @near_matches += 1
+          ai_guess.delete_at(index)
 
           break
 
         end
       end
     end
-    return [matches, near_matches]
+    return [@matches, @near_matches]
+  end
+
+  def reset_matches_and_near_matches
+    @matches = 0
+    @near_matches = 0
   end
 
   #Sets number of rounds the computer has to guess the correct # to 10
