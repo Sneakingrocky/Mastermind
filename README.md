@@ -22,21 +22,21 @@ You input a 4 letter secret code using: r, g, o, y, b, p
 Computer makes a guess until it has matched your secret code:
 
 <code>This is round 1
-My guess is rrrr
+My guess is rrrr</code>
 
-This is round 2
-My guess is rooo
+<code>This is round 2
+My guess is rooo</code>
 
-This is round 3
-My guess is royy
+<code>This is round 3
+My guess is royy</code>
 
-This is round 4
-My guess is royg
+<code>This is round 4
+My guess is royg</code>
 
-This is round 5
-My guess is rogy
+<code>This is round 5
+My guess is rogy</code>
 
-I did it! I am so smart.</code>
+<code>I did it! I am so smart.</code>
 
 <h1>How to play the game</h1>
 
