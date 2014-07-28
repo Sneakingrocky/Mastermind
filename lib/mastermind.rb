@@ -4,48 +4,11 @@ class Mastermind
 
   def initialize
     @possibilities = create_possibilities
-    @matches = 0
-    @near_matches = 0
   end
 
   def create_possibilities
     COLORS.repeated_permutation(4).to_a
   end  
-
-  #Separates matches and near matches for computer
-  def score(secret_code, ai_guess)
-    reset_matches_and_near_matches
-    secret_code, ai_guess = secret_code.dup, ai_guess.dup #copying arrays to save from .delete(" ") method
-
-    secret_code.each_with_index do |color, index|
-      if color == ai_guess[index]
-        @matches += 1
-        secret_code[index], ai_guess[index] = " ", " "
-      end
-    end
-   
-    secret_code.delete(" ")
-    ai_guess.delete(" ")
-
-
-    secret_code.each do |peg1|
-      ai_guess.each_with_index do |peg2, index|
-        if peg1 == peg2
-          @near_matches += 1
-          ai_guess.delete_at(index)
-
-          break
-
-        end
-      end
-    end
-    return [@matches, @near_matches]
-  end
-
-  def reset_matches_and_near_matches
-    @matches = 0
-    @near_matches = 0
-  end
 
   #Sets number of rounds the computer has to guess the correct # to 10
   def prompt_for_code
@@ -80,15 +43,15 @@ class Mastermind
   def play_round
     ai_guess = get_ai_guess
     display("My guess is #{ai_guess.join}")
-    matches, near_matches = score(@secret_color_code, ai_guess)
-    check_for_winning_code(matches) 
-    process_feedback(ai_guess, matches, near_matches)      
+    score = Score.compare(@secret_color_code, ai_guess)
+    check_for_winning_code(score.matches) 
+    process_feedback(ai_guess, score)      
   end
 
-  def process_feedback(ai_guess, matches, near_matches)
+  def process_feedback(ai_guess, score)
     @possibilities.delete_if do |possibility|
-      new_matches, new_near_matches = score(possibility, ai_guess)
-      [matches, near_matches] != [new_matches, new_near_matches]
+      new_score = Score.compare(possibility, ai_guess)
+      score != new_score
     end
   end  
 
