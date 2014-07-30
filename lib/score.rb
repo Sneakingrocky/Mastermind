@@ -1,7 +1,7 @@
 class Score
   attr_reader :matches, :near_matches
-
-	def self.compare(secret_code, ai_guess)
+  
+  def self.compare(secret_code, ai_guess)
     score = new(secret_code, ai_guess)
     score.calculate_score
     score
