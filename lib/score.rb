@@ -49,7 +49,7 @@ class Score
 
   def ==(other_score)
     matches == other_score.matches &&
-      near_matches == other_score.near_matches
+    near_matches == other_score.near_matches
   end
 
 end
