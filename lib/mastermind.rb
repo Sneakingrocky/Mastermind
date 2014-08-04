@@ -6,6 +6,15 @@ class Mastermind
     @possibilities = create_possibilities
   end
 
+
+  def play_game
+    prompt_for_code
+    game_loop 
+    display("I lose. At least I still have my good looks.")
+  end
+
+  private 
+
   def create_possibilities
     COLORS.repeated_permutation(4).to_a
   end  
@@ -20,11 +29,6 @@ class Mastermind
     @possibilities[0] #this is guessing the first possibility
   end
 
-  def play_game
-    prompt_for_code
-    game_loop 
-    display("I lose. At least I still have my good looks.")
-  end
 
   def game_loop
      10.times do |round|
