@@ -2,12 +2,8 @@ class Mastermind
 
   COLORS = ["r", "o", "y", "g", "b", "p"]
 
-  def initialize
-    @possibilities = create_possibilities
-  end
-
-
   def play_game
+    display_game_rules
     prompt_for_code
     game_loop 
     display("I lose. At least I still have my good looks.")
@@ -15,20 +11,36 @@ class Mastermind
 
   private 
 
-  def create_possibilities
-    COLORS.repeated_permutation(4).to_a
+  def possibilities
+    @possibilities ||= COLORS.repeated_permutation(4).to_a
   end  
 
-  #Sets number of rounds the computer has to guess the correct # to 10
+
+  def display_game_rules
+    display("Choose a combination of 4 colors for your secret code! You can choose from #{COLORS.join} and duplicates are allowed.")
+  end
+
   def prompt_for_code
     display("Can I have your secret code?")
     @secret_color_code = gets.chomp.chars
+    validate_secret_color_code
+  end
+
+  def validate_secret_color_code
+    unless valid_secret_color_code?
+      display("That is an invalid code, please choose a combination of 4 colors from from #{COLORS.join}. Duplicates are allowed.")
+      prompt_for_code
+    end
+  end  
+
+  def valid_secret_color_code?
+    @secret_color_code.length == 4 &&
+      @secret_color_code.all? { |char| COLORS.include?(char) }
   end
 
   def get_ai_guess
-    @possibilities[0] #this is guessing the first possibility
+    possibilities[0] 
   end
-
 
   def game_loop
      10.times do |round|
@@ -53,7 +65,7 @@ class Mastermind
   end
 
   def process_feedback(ai_guess, score)
-    @possibilities.delete_if do |possibility|
+    possibilities.delete_if do |possibility|
       new_score = Score.compare(possibility, ai_guess)
       score != new_score
     end
