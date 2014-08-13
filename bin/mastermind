@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'mastermind'
-require 'score'
+require 'scorer'
 
 game = Mastermind.new
 game.play_game

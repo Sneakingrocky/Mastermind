@@ -1,17 +1,17 @@
-class Score
+class Scorer
   attr_reader :matches, :near_matches
   
-  def self.compare(secret_code, ai_guess)
-    score = new(secret_code, ai_guess)
-    score.calculate_score
-    score
-  end
-
   def initialize(secret_code, ai_guess)
     @matches = 0
     @near_matches = 0
     @secret_code = secret_code.dup
     @ai_guess = ai_guess.dup
+  end
+
+  def self.compare(secret_code, ai_guess)
+    score = new(secret_code, ai_guess)
+    score.calculate_score
+    score
   end
 
   def calculate_score

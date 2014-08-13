@@ -6,7 +6,7 @@ class Mastermind
     display_game_rules
     prompt_for_code
     game_loop 
-    display("I lose. At least I still have my good looks.")
+    display_losing_message
   end
 
   private 
@@ -49,6 +49,10 @@ class Mastermind
     end
   end
 
+  def display_losing_message
+    display("I lose. At least I still have my good looks.")
+  end  
+
   def check_for_winning_code(matches)
     if matches == 4
       display("I did it! I am so smart.")
@@ -59,14 +63,14 @@ class Mastermind
   def play_round
     ai_guess = get_ai_guess
     display("My guess is #{ai_guess.join}")
-    score = Score.compare(@secret_color_code, ai_guess)
+    score = Scorer.compare(@secret_color_code, ai_guess)
     check_for_winning_code(score.matches) 
     process_feedback(ai_guess, score)      
   end
 
   def process_feedback(ai_guess, score)
     possibilities.delete_if do |possibility|
-      new_score = Score.compare(possibility, ai_guess)
+      new_score = Scorer.compare(possibility, ai_guess)
       score != new_score
     end
   end  
